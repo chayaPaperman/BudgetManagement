@@ -12,11 +12,10 @@ async def signup(user: User):
 
 
 @user_router.post("/login")
-async def login\
-                (details: UserDetails):
+async def login(details: UserDetails):
     return user_service.login(details)
 
 
-@user_router.put("/update_details")
-async def update_details(user: User):
-    return user_service.update_details(user)
+@user_router.put("/update_details/{user_id}")
+async def update_details(user_id, user: User):
+    return user_service.update_details(user_id, user)
