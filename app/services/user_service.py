@@ -4,12 +4,14 @@ from app.models.userDetails_model import UserDetails
 from fastapi import HTTPException
 
 
-def signup(user: User):
+async def signup(user: User):
     """
     A function to add new user to the users collection in the database
     :param user: a user to insert
     :return:the new user when the add was successful
     """
+    if usersDB.find_one({"name": user.name, "password": user.password}) is not None:
+        raise HTTPException(status_code=409, detail="the user is  exist")
     users = list(usersDB.find())
     if len(users) == 0:
         user.id = 0
@@ -20,7 +22,7 @@ def signup(user: User):
     return user
 
 
-def login(user_details: UserDetails):
+async def login(user_details: UserDetails):
     """
     A function to check if the user who wants to connect exists according to the received details
     :param user_details: the username and his password
@@ -32,7 +34,7 @@ def login(user_details: UserDetails):
     return user['id']
 
 
-def update_details(user_id, user: User):
+async def update_details(user_id, user: User):
     """
     A function to edit user information
     :param user_id:the id of the user

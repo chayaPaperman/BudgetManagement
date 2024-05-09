@@ -8,14 +8,14 @@ user_router = APIRouter()
 
 @user_router.post("/signup")
 async def signup(user: User):
-    return user_service.signup(user)
+    return await user_service.signup(user)
 
 
 @user_router.post("/login")
 async def login(details: UserDetails):
-    return user_service.login(details)
+    return await user_service.login(details)
 
 
 @user_router.put("/update_details/{user_id}")
 async def update_details(user_id, user: User):
-    return user_service.update_details(user_id, user)
+    return await user_service.update_details(user_id, user)
