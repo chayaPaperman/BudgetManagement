@@ -30,6 +30,6 @@ async def update(operation_id, operation: Operation):
     return await operation_service.update_operation(operation_id, operation)
 
 
-@operation_router.delete("/delete")
+@operation_router.delete("/delete/{operation_id}")
 async def delete(operation_id):
     return await operation_service.delete_operation(operation_id)
