@@ -7,29 +7,29 @@ operation_router = APIRouter()
 
 @operation_router.get("/getBalance/{user_id}")
 async def get_balance(user_id):
-    return operation_service.get_balance(user_id)
+    return await operation_service.get_balance(user_id)
 
 
 @operation_router.get("/getAllRevenues/{user_id}")
 async def get_all_revenues(user_id):
-    return operation_service.get_all_user_revenues(user_id)
+    return await operation_service.get_all_user_revenues(user_id)
 
 
 @operation_router.get("/getAllSpending/{user_id}")
 async def get_all_spending(user_id):
-    return operation_service.get_all_user_spending(user_id)
+    return await operation_service.get_all_user_spending(user_id)
 
 
 @operation_router.post("/add")
 async def add(operation: Operation):
-    return operation_service.add_operation(operation)
+    return await operation_service.add_operation(operation)
 
 
 @operation_router.put("/update/{operation_id}")
 async def update(operation_id, operation: Operation):
-    return operation_service.update_operation(operation_id, operation)
+    return await operation_service.update_operation(operation_id, operation)
 
 
 @operation_router.delete("/delete")
 async def delete(operation_id):
-    return operation_service.delete_operation(operation_id)
+    return await operation_service.delete_operation(operation_id)

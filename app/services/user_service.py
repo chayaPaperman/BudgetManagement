@@ -17,7 +17,6 @@ async def signup(user: User):
         user.id = 0
     else:
         user.id = int(users[len(users) - 1]['id']) + 1
-    print(user.id)
     usersDB.insert_one(user.__dict__)
     return user
 
@@ -41,9 +40,19 @@ async def update_details(user_id, user: User):
     :param user:the new details of the user
     :return:the updated user
     """
-    this_user = usersDB.find_one({"id": int(user_id)})
-    if this_user is None:
+    if not await is_exist(user_id):
         raise HTTPException(status_code=404, detail="the user is not exist")
     user.id = int(user_id)
     usersDB.update_one({"id": int(user_id)}, {"$set": user.__dict__})
     return user
+
+
+async def is_exist(user_id):
+    """
+    A function to check if user is existed
+    :param user_id: the id of the user
+    :return:True if existed, False if not
+    """
+    if usersDB.find_one({"id": int(user_id)}) is None:
+        return False
+    return True

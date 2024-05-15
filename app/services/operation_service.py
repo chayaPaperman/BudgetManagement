@@ -1,5 +1,8 @@
+from fastapi import HTTPException
+
 from app.db_management.config_db import operationsDB
 from app.models.operation_model import Operation, OperationType
+from app.services.user_service import is_exist
 
 
 async def get_balance(user_id):
@@ -8,6 +11,9 @@ async def get_balance(user_id):
     :param user_id: the id of the user
     :return: the balance amount of the user
     """
+    sum_revenues = sum(r['amount'] for r in await get_all_user_revenues(user_id))
+    sum_spending = sum(r['amount'] for r in await get_all_user_spending(user_id))
+    return sum_revenues - sum_spending
 
 
 async def get_all_user_revenues(user_id):
@@ -17,8 +23,7 @@ async def get_all_user_revenues(user_id):
     :return: a list of all the user's revenues
     """
     revenues = list(operationsDB.find({'user_id': int(user_id), 'type': OperationType.REVENUE}))
-    for r in revenues:
-        r.pop('_id')
+    [r.pop('_id') for r in revenues]
     return revenues
 
 
@@ -29,8 +34,7 @@ async def get_all_user_spending(user_id):
     :return: a list of all the user's spending
     """
     spending = list(operationsDB.find({'user_id': int(user_id), 'type': OperationType.SPENDING}))
-    for r in spending:
-        r.pop('_id')
+    [s.pop('_id') for s in spending]
     return spending
 
 
@@ -40,6 +44,8 @@ async def add_operation(operation: Operation):
     :param operation: an operation to insert
     :return: the new operation when the add was successful
     """
+    if not await is_exist(operation.user_id):
+        raise HTTPException(status_code=404, detail="the user is not exist")
     operations = list(operationsDB.find())
     if len(operations) == 0:
         operation.id = 0
@@ -56,6 +62,11 @@ async def update_operation(operation_id, operation: Operation):
     :param operation: the new details of the operation
     :return: the updated operation
     """
+    if operationsDB.find_one({"id": int(operation_id)}) is None:
+        raise HTTPException(status_code=404, detail="the operation is not exist")
+    operationsDB.update_one({"id": int(operation_id)},
+                            {"$set": {"description": operation.description, "amount": operation.amount}})
+    return "Editing of the description and amount was done successfully "
 
 
 async def delete_operation(operation_id):
@@ -64,3 +75,7 @@ async def delete_operation(operation_id):
     :param operation_id:the id of operation
     :return: message if the deletion was successful
     """
+    if operationsDB.find_one({"id": int(operation_id)}) is None:
+        raise HTTPException(status_code=404, detail="the operation is not exist")
+    operationsDB.delete_one({"id": int(operation_id)})
+    return "Delete operation" + operation_id + "passed successfully"
