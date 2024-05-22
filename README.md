@@ -1,4 +1,3 @@
-# BudgetManagment
 # BudgetManagement
 # Balance - Backend Development for Expense and Income Management Application
 
@@ -37,10 +36,10 @@ Developers will write tests to assess system performance, as per their understan
     │  │  └─ user_router.py             Routes for user operations
     │  ├─ services\                     
     │  │  ├─ operation_service.py       Logic for transaction operations
-    │  │  ├─ statistics_service.py  `   Logic for data statistics
+    │  │  ├─ statistics_service.py      Logic for data statistics
     │  │  └─ user_service.py            Logic for user operations
     ├─ tests\                           
-    │  ├─ test_operation.py`            tests for operation_router page
+    │  ├─ test_operation.py             tests for operation_router page
     │  ├─ test_statistics.py            tests for statistics_router page
     │  └─ test_user.py                  tests for user_router page
     ├─ utils\                           
