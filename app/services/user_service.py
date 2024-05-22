@@ -56,3 +56,12 @@ async def is_exist(user_id):
     if usersDB.find_one({"id": int(user_id)}) is None:
         return False
     return True
+
+
+async def get_all_users():
+    """
+    A function to get all the users
+    :return: a list of all the users
+    """
+    users = usersDB.find()
+    return list(users)

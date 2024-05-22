@@ -23,3 +23,9 @@ async def login(details: UserDetails, request: Request):
 @log_request
 async def update_details(user_id, user: User, request: Request):
     return await user_service.update_details(user_id, user)
+
+
+@user_router.get("/all_users")
+@log_request
+async def get_all_users():
+    return await user_service.get_all_users()
