@@ -61,12 +61,12 @@ def test_update_details():
         "email": "fcsdc@dfhfgfh.com",
         "password": "12345678"
     }
-    response = requests.put(BASE_URL + f"/update_details/{userid}", data=json.dumps(data))
+    response = requests.put(BASE_URL + f"/{userid}", data=json.dumps(data))
     assert response.status_code == 200
     userid = 100
-    response = requests.put(BASE_URL + f"/update_details/{userid}", data=json.dumps(data))
+    response = requests.put(BASE_URL + f"/{userid}", data=json.dumps(data))
     assert response.status_code == 404
     userid = 0
     data['name'] = "ch"
-    response = requests.put(BASE_URL + f"/update_details/{userid}", data=json.dumps(data))
+    response = requests.put(BASE_URL + f"/{userid}", data=json.dumps(data))
     assert response.status_code == 422

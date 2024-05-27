@@ -19,7 +19,7 @@ async def login(details: UserDetails, request: Request):
     return await user_service.login(details)
 
 
-@user_router.put("/update_details/{user_id}")
+@user_router.put("/{user_id}")
 @log_request
 async def update_details(user_id, user: User, request: Request):
     return await user_service.update_details(user_id, user)
