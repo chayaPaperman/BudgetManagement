@@ -5,21 +5,14 @@ Welcome to the backend project for the "Balance" expense and income management a
 
 ## System Specification
 
-### Database
-Data management in the application will be handled using MongoDB, an innovative and popular database system.
-
 ### Server-Side
-Server-side development will be done in Python, a popular and efficient programming language.
+A server-side development written in Python
 
-### Routing
-The application offer the following routing functionalities:
-
-- **User Routes**: Including registration, login, and profile updates.
-- **Transaction Routes**: Including creation, update, deletion, and retrieval of data related to user transactions.
-- **Visualization Route**: Option to retrieve data in a format suitable for visualization using the matplotlib library.
+### Database
+Data management in the application handled using MongoDB, an innovative and popular database system.
 
 ### Quality Assurance
-Developers will write tests to assess system performance, as per their understanding.
+Writen tests to assess system performance
 
 ## File Summary
     
@@ -49,8 +42,53 @@ Developers will write tests to assess system performance, as per their understan
     ├─ main.py                          Main application logic
     └─ requirements.txt                 Dependencies for the project
         
+
+# Routing
+The application offer the following routing functionalities:
+
+## User Router
+Including registration, login, and profile updates.
+
+
+| HTTP Method | Route                    | Function          | Description                              |
+|-------------|--------------------------|-------------------|------------------------------------------|
+| POST        | /signup                  | signup            | Register a new user                      |
+| POST        | /login                   | login             | User login                               |
+| PUT         | /update_details/{user_id} | update_details    | Update user details by user ID           |
+| GET         | /all_users               | get_all_users     | Retrieve all users                       |
+
+
+## Operation Router
+Including creation, update, deletion, and retrieval of data related to user transactions.
+
+
+| HTTP Method | Route                  | Function        | Description                                     |
+|-------------|------------------------|-----------------|-------------------------------------------------|
+| GET         | /getBalance/{user_id} | get_balance     | Retrieve balance of a specific user             |
+| GET         | /getAllRevenues/{user_id} | get_all_revenues | Retrieve all revenues of a specific user      |
+| GET         | /getAllSpending/{user_id} | get_all_spending | Retrieve all spending of a specific user      |
+| POST        | /add                   | add             | Add a new operation                            |
+| PUT         | /update/{operation_id} | update          | Update an existing operation by unique ID       |
+| DELETE      | /delete/{operation_id} | delete          | Delete an existing operation by unique ID       |
+
+## Statistics Router
+ Option to retrieve data in a format suitable for visualization using the matplotlib library.
+
+
+| HTTP Method | Route            | Function             | Description                               |
+|-------------|------------------|----------------------|-------------------------------------------|
+| GET         | /users_balance   | balance_statistics   | Retrieve statistics for users' balance    |
+
 ## Installation and Execution
 
 1. Install all the required dependencies for the project.
 2. Run the command `pip install -r requirements.txt` to install all necessary packages.
 3. Run the command `python main.py` to start the server.
+
+
+
+
+
+
+
+
