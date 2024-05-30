@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Request
 from app.models.operation_model import Operation
 import app.services.operation_service as operation_service
-from utils.logger import log_request
+from app.utils.logger import log_request
 
 operation_router = APIRouter()
 
@@ -10,6 +10,12 @@ operation_router = APIRouter()
 @log_request
 async def get_balance(user_id, request: Request):
     return await operation_service.get_balance(user_id)
+
+
+@operation_router.get("/balance/{user_id}/{month}")
+@log_request
+async def get_balance(user_id, month, request: Request):
+    return await operation_service.get_user_balance_by_month(user_id, month)
 
 
 @operation_router.get("/revenues/{user_id}")

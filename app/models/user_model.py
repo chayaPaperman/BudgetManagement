@@ -1,4 +1,4 @@
-from pydantic import BaseModel, conint, constr, ValidationError
+from pydantic import BaseModel, conint, constr
 
 
 class User(BaseModel):

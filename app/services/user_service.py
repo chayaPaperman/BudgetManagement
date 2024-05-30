@@ -1,6 +1,6 @@
 from app.db_management.config_db import usersDB
 from app.models.user_model import User
-from app.models.userDetails_model import UserDetails
+from app.models.user_details_model import UserDetails
 from fastapi import HTTPException
 
 
@@ -63,5 +63,6 @@ async def get_all_users():
     A function to get all the users
     :return: a list of all the users
     """
-    users = usersDB.find()
-    return list(users)
+    users = list(usersDB.find())
+    [u.pop('_id') for u in users]
+    return users
