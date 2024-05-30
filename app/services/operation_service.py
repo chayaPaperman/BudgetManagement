@@ -1,3 +1,5 @@
+import datetime
+
 from fastapi import HTTPException
 
 from app.db_management.config_db import operationsDB
@@ -15,6 +17,23 @@ async def get_balance(user_id):
         raise HTTPException(status_code=404, detail="the user is not exist")
     sum_revenues = sum(r['amount'] for r in await get_all_user_revenues(user_id))
     sum_spending = sum(r['amount'] for r in await get_all_user_spending(user_id))
+    return sum_revenues - sum_spending
+
+
+async def get_user_balance_by_month(user_id, month):
+    """
+    A function to get all the user's spending
+    :param month:
+    :param user_id: the id of the user
+    :return: a list of all the user's spending
+    """
+    if not await is_exist(user_id):
+        raise HTTPException(status_code=404, detail="the user is not exist")
+    sum_revenues = sum(
+        r['amount'] for r in await get_all_user_revenues(user_id) if
+        datetime.datetime.strptime(r['date'], "%Y-%m-%d").month == int(month))
+    sum_spending = sum(r['amount'] for r in await get_all_user_spending(user_id)
+                       if datetime.datetime.strptime(r['date'], "%Y-%m-%d").month == int(month))
     return sum_revenues - sum_spending
 
 
@@ -57,6 +76,7 @@ async def add_operation(operation: Operation):
         operation.id = 0
     else:
         operation.id = int(operations[len(operations) - 1]['id']) + 1
+    operation.date = str(operation.date)
     operationsDB.insert_one(operation.__dict__)
     return operation
 

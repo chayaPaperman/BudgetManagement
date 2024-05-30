@@ -1,3 +1,5 @@
+import datetime
+
 from pydantic import BaseModel, conint
 from enum import IntEnum
 
@@ -12,5 +14,5 @@ class Operation(BaseModel):
     type: OperationType
     description: str
     amount: conint(gt=0)
-    date: str
+    date: datetime.date
     user_id: int
